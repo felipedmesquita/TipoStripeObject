@@ -1,6 +1,9 @@
 class AcObject
   def initialize(parsed_json)
     @values = parsed_json
+    @values.keys.each do |key|
+      define_singleton_method(key) { wrapped(key) } unless respond_to? key
+    end
   end
 
   def [](key)
@@ -8,18 +11,6 @@ class AcObject
   end
 
   private
-
-  def method_missing(method)
-    if respond_to_missing?(method)
-      wrapped(method)
-    else
-      super
-    end
-  end
-
-  def respond_to_missing?(method, include_private = false)
-    @values.key?(method.to_s)
-  end
 
   def wrapped(key)
     maybe_hash = @values[key.to_s]
