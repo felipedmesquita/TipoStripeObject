@@ -29,6 +29,20 @@ class MetaprogramingTest < TLDR
     assert_equal AcObject, troublesome_keys.class
   end
 
+  def test_to_s_runs
+    AcObject.new('pretty' => 'print').to_s
+  end
+
+  def test_inspect
+    product = AcObject.new({ 'id' => 44 })
+    expected = <<~TEXT
+      #<AcObject:0x#{product.object_id.to_s(16)} id=44> JSON: {
+        "id": 44
+      }
+    TEXT
+    assert_equal expected.chomp, product.inspect
+  end
+
   def test_input_with_symbol_keys
     skip 'would need active_support, for now parsed json is always text'
     why = AcObject.new({ not_a_string: true })
