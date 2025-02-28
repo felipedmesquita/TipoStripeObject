@@ -10,6 +10,16 @@ class AcObject
     wrapped(key)
   end
 
+  def to_s(*_args)
+    JSON.pretty_generate(@values)
+  end
+
+  def inspect
+    id_string = respond_to?(:id) && !id.nil? ? " id=#{id}" : ''
+    "#<#{self.class}:0x#{object_id.to_s(16)}#{id_string}> JSON: " +
+      JSON.pretty_generate(@values)
+  end
+
   private
 
   def wrapped(key)
