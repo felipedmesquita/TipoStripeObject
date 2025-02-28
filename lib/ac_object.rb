@@ -18,9 +18,22 @@ class AcObject
     when Hash
       AcObject.new(maybe_hash)
     when Array
-      maybe_hash.map { AcObject.new(_1) }
+      deep_wrap(maybe_hash)
     else
       maybe_hash
+    end
+  end
+
+  def deep_wrap(array)
+    array.map do |item|
+      case item
+      when Hash
+        AcObject.new(item)
+      when Array
+        deep_wrap(item)
+      else
+        item
+      end
     end
   end
 end
