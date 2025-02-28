@@ -15,6 +15,14 @@ class MetaprogramingTest < TLDR
     assert_equal '500x422', first_picture_size
   end
 
+  def test_double_nesting
+    heard_you_like_arrays = {
+      'list' => [[{ 'level' => 2 }]]
+    }
+    levels = AcObject.new(heard_you_like_arrays)
+    assert_equal 2, levels.list.first.first.level
+  end
+
   def test_no_overides
     troublesome_keys = AcObject.new({ 'class' => 'no dot' })
     assert_equal 'no dot', troublesome_keys[:class]
