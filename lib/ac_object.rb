@@ -23,27 +23,17 @@ class AcObject
   private
 
   def wrapped(key)
-    maybe_hash = @values[key.to_s]
-    case maybe_hash
-    when Hash
-      AcObject.new(maybe_hash)
-    when Array
-      deep_wrap(maybe_hash)
-    else
-      maybe_hash
-    end
+    deep_wrap(@values[key.to_s])
   end
 
-  def deep_wrap(array)
-    array.map do |item|
-      case item
-      when Hash
-        AcObject.new(item)
-      when Array
-        deep_wrap(item)
-      else
-        item
-      end
+  def deep_wrap(value)
+    case value
+    when Hash
+      AcObject.new(value)
+    when Array
+      value.map { deep_wrap(_1) }
+    else
+      value
     end
   end
 end
