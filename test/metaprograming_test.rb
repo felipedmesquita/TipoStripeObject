@@ -44,7 +44,6 @@ class MetaprogramingTest < TLDR
   end
 
   def test_input_with_symbol_keys
-    skip 'would need active_support, for now parsed json is always text'
     why = AcObject.new({ not_a_string: true })
     assert_equal true, why.not_a_string
   end

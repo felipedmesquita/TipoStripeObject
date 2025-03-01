@@ -1,6 +1,6 @@
 class AcObject
   def initialize(parsed_json)
-    @values = parsed_json
+    @values = parsed_json.transform_keys(&:to_s)
     @values.keys.each do |key|
       define_singleton_method(key) { wrapped(key) } unless respond_to? key
     end
