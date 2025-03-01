@@ -58,6 +58,12 @@ class MetaprogramingTest < TLDR
     refute c.eql? a
   end
 
+  def test_keys_and_values
+    color = AcObject.new r: 102, g: 51, b: 153
+    assert_equal ["r", "g", "b"], color.keys
+    assert_equal [102, 51, 153], color.values
+  end
+
   def meli_hash
     {
       'id' => 'MLB1578157865',
