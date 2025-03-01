@@ -29,6 +29,14 @@ class AcObject
     self == other
   end
 
+  def keys
+    @values.keys
+  end
+
+  def values
+    @values.values
+  end
+
   private
 
   def wrapped(key)
