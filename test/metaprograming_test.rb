@@ -48,6 +48,16 @@ class MetaprogramingTest < TLDR
     assert_equal true, why.not_a_string
   end
 
+  def test_equality
+    a = AcObject.new a: 1
+    b = AcObject.new a: 1
+    assert a == b
+    assert a.eql?(b)
+    c = AcObject.new a: 2
+    refute c == a
+    refute c.eql? a
+  end
+
   def meli_hash
     {
       'id' => 'MLB1578157865',
