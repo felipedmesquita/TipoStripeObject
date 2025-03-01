@@ -20,6 +20,15 @@ class AcObject
       JSON.pretty_generate(@values)
   end
 
+  def ==(other)
+    other.is_a? AcObject
+    @values == other.instance_variable_get("@values")
+  end
+
+  def eql?(other)
+    self == other
+  end
+
   private
 
   def wrapped(key)
