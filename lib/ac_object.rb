@@ -2,12 +2,12 @@ class AcObject
   def initialize(parsed_json)
     @values = parsed_json.transform_keys(&:to_s)
     @values.keys.each do |key|
-      define_singleton_method(key) { wrapped(key) } unless respond_to? key
+      define_singleton_method(key) { self.[](key) } unless respond_to? key
     end
   end
 
   def [](key)
-    wrapped(key)
+    wrap(@values[key.to_s])
   end
 
   def to_s(*_args)
@@ -22,7 +22,7 @@ class AcObject
 
   def ==(other)
     other.is_a? AcObject
-    @values == other.instance_variable_get("@values")
+    @values == other.instance_variable_get('@values')
   end
 
   def eql?(other)
@@ -39,16 +39,12 @@ class AcObject
 
   private
 
-  def wrapped(key)
-    deep_wrap(@values[key.to_s])
-  end
-
-  def deep_wrap(value)
+  def wrap(value)
     case value
     when Hash
       AcObject.new(value)
     when Array
-      value.map { deep_wrap(_1) }
+      value.map { wrap(_1) }
     else
       value
     end
